@@ -796,12 +796,12 @@
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
             <div class="mb-4 flex flex-col md:flex-row justify-between md:items-end">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-800">Sản Lượng Thử Thách Tại Từng Trạm Thực Địa</h3>
-                    <p class="text-xs text-slate-500">Tổng số thử thách đã bắt đầu (Start) so với đã hoàn thành (Complete).</p>
+                    <h3 class="text-lg font-bold text-slate-800">Thử Thách Bắt Đầu & Hoàn Thành theo trạm</h3>
+                    <p class="text-xs text-slate-500">Thống kê lượng người chơi tham gia thử thách so với số người thực sự giải quyết xong tại mỗi trạm.</p>
                 </div>
                 <div class="flex flex-col md:items-end gap-2">
                     <div class="mt-2 md:mt-0 bg-blue-50 text-blue-700 px-3 py-1.5 rounded text-xs font-medium border border-blue-100 inline-block">
-                        <i class="fa-solid fa-lightbulb mr-1"></i> Khoảng cách giữa 2 cột cho thấy tỷ lệ rớt phễu (Drop-off)
+                        <i class="fa-solid fa-lightbulb mr-1"></i> Độ chênh lệch giữa 2 cột thể hiện lượng người chơi bỏ cuộc giữa chừng
                     </div>
                     <!-- Sorting Dropdown -->
                     <div class="flex items-center gap-2 mt-1 md:mt-0">
@@ -2053,7 +2053,7 @@
                     responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, padding: 20 } },
-                        datalabels: { display: true, anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' }, formatter: (value) => value + '%' }
+                        datalabels: { display: true, anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' } }
                     },
                     scales: {
                         y: { beginAtZero: true, grid: { borderDash: [4, 4] }, grace: '15%' },
@@ -2120,7 +2120,7 @@
                     responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, padding: 20 } },
-                        datalabels: { display: true, anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' }, formatter: (value) => value + '%' },
+                        datalabels: { display: true, anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' } },
                         tooltip: {
                             callbacks: {
                                 footer: (tooltipItems) => {
