@@ -211,6 +211,29 @@
         <!-- KPI Cards Grid 1 (Top Metrics) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
+            <!-- 2. Total Tap Chip -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden group flex flex-col justify-between">
+                <div class="absolute -right-4 -top-4 w-20 h-20 bg-rose-50 rounded-full group-hover:scale-110 transition-transform duration-500 ease-out z-0"></div>
+                
+                <div class="relative z-10 flex items-start justify-between mb-2">
+                    <div>
+                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Tổng Lượt Tap Chip</p>
+                        <h3 class="text-3xl font-bold text-slate-900 mb-1">45,620</h3>
+                        
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                </div>
+                <!-- Sparkline Chart Container -->
+                <div class="relative z-10 h-12 w-full mt-2">
+                    <canvas id="sparkline-total-taps"></canvas>
+                </div>
+                <div class="absolute bottom-4 right-4 text-slate-300 hover:text-rose-500 cursor-help" title="Tổng số lượt quét (tap) chip NFC được ghi nhận.">
+                    <i class="fa-solid fa-circle-info text-sm"></i>
+                </div>
+            </div>
+
             <!-- 1. Total Users -->
             <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden group flex flex-col justify-between">
                 <!-- Decorative background shape -->
@@ -220,9 +243,7 @@
                     <div>
                         <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Tổng Số Người Dùng</p>
                         <h3 class="text-3xl font-bold text-slate-900 mb-1">12,450</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +14.5%
-                        </p>
+                        
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-users"></i>
@@ -238,31 +259,6 @@
                 </div>
             </div>
 
-            <!-- 2. Total Tap Chip -->
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden group flex flex-col justify-between">
-                <div class="absolute -right-4 -top-4 w-20 h-20 bg-rose-50 rounded-full group-hover:scale-110 transition-transform duration-500 ease-out z-0"></div>
-                
-                <div class="relative z-10 flex items-start justify-between mb-2">
-                    <div>
-                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Tổng Lượt Tap Chip</p>
-                        <h3 class="text-3xl font-bold text-slate-900 mb-1">45,620</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +32.1%
-                        </p>
-                    </div>
-                    <div class="w-12 h-12 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
-                        <i class="fa-solid fa-microchip"></i>
-                    </div>
-                </div>
-                <!-- Sparkline Chart Container -->
-                <div class="relative z-10 h-12 w-full mt-2">
-                    <canvas id="sparkline-total-taps"></canvas>
-                </div>
-                <div class="absolute bottom-4 right-4 text-slate-300 hover:text-rose-500 cursor-help" title="Tổng số lượt quét (tap) chip NFC được ghi nhận.">
-                    <i class="fa-solid fa-circle-info text-sm"></i>
-                </div>
-            </div>
-
             <!-- 3. Game Users (TapQuest) -->
             <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden group flex flex-col justify-between">
                 <div class="absolute -right-4 -top-4 w-20 h-20 bg-purple-50 rounded-full group-hover:scale-110 transition-transform duration-500 ease-out z-0"></div>
@@ -271,9 +267,7 @@
                     <div>
                         <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Người Dùng Game</p>
                         <h3 class="text-3xl font-bold text-slate-900 mb-1">4,135</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +22.4%
-                        </p>
+                        
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-gamepad"></i>
@@ -296,9 +290,7 @@
                     <div>
                         <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Người Dùng Web</p>
                         <h3 class="text-3xl font-bold text-slate-900 mb-1">8,920</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +8.2%
-                        </p>
+                        
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-globe"></i>
@@ -341,65 +333,43 @@
 
         <!-- KPI Cards Grid 2 (Quests & Challenges) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            <!-- 6. Quests Started -->
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden group flex flex-col justify-between">
-                <div class="absolute -right-4 -top-4 w-20 h-20 bg-emerald-50 rounded-full group-hover:scale-110 transition-transform duration-500 ease-out z-0"></div>
-                
-                <div class="relative z-10 flex items-start justify-between mb-2">
+            
+            <!-- 6. Số Nhiệm Vụ Kích Hoạt -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 flex flex-col justify-center">
+                <div class="flex items-start justify-between mb-2">
                     <div>
-                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1" style="font-size: 0.75rem;">Nhiệm Vụ Đã Bắt Đầu</p>
-                        <h3 class="text-3xl font-bold text-slate-900 mb-1">1,250</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +15.2%
-                        </p>
+                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Số Nhiệm Vụ Kích Hoạt</p>
+                        <h3 class="text-3xl font-bold text-slate-900 mb-1">5</h3>
                     </div>
-                    <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
-                        <i class="fa-solid fa-flag-checkered"></i>
+                    <div class="w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-map-location-dot"></i>
                     </div>
-                </div>
-                <div class="relative z-10 h-12 w-full mt-2">
-                    <canvas id="sparkline-quests-started"></canvas>
-                </div>
-                <div class="absolute bottom-4 right-4 text-slate-300 hover:text-emerald-500 cursor-help" title="Số lượng nhiệm vụ (nhiều trạm) đã được người dùng bắt đầu.">
-                    <i class="fa-solid fa-circle-info text-sm"></i>
                 </div>
             </div>
 
-            <!-- 7. Quests Completed -->
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden group flex flex-col justify-between">
-                <div class="absolute -right-4 -top-4 w-20 h-20 bg-teal-50 rounded-full group-hover:scale-110 transition-transform duration-500 ease-out z-0"></div>
-                
-                <div class="relative z-10 flex items-start justify-between mb-2">
+            <!-- 7. Số Thử Thách Kích Hoạt -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 flex flex-col justify-center">
+                <div class="flex items-start justify-between mb-2">
                     <div>
-                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1" style="font-size: 0.75rem;">Nhiệm Vụ Hoàn Thành</p>
-                        <h3 class="text-3xl font-bold text-slate-900 mb-1">850</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +18.4%
-                        </p>
+                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Số Thử Thách Kích Hoạt</p>
+                        <h3 class="text-3xl font-bold text-slate-900 mb-1">24</h3>
                     </div>
-                    <div class="w-12 h-12 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
-                        <i class="fa-solid fa-check-double"></i>
+                    <div class="w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-cube"></i>
                     </div>
-                </div>
-                <div class="relative z-10 h-12 w-full mt-2">
-                    <canvas id="sparkline-quests-completed"></canvas>
-                </div>
-                <div class="absolute bottom-4 right-4 text-slate-300 hover:text-teal-500 cursor-help" title="Số lượng nhiệm vụ đã được hoàn thành 100%.">
-                    <i class="fa-solid fa-circle-info text-sm"></i>
                 </div>
             </div>
-
+            
             <!-- 8. Challenges Started -->
+
             <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden group flex flex-col justify-between">
                 <div class="absolute -right-4 -top-4 w-20 h-20 bg-cyan-50 rounded-full group-hover:scale-110 transition-transform duration-500 ease-out z-0"></div>
                 
                 <div class="relative z-10 flex items-start justify-between mb-2">
                     <div>
-                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1" style="font-size: 0.75rem;">Thử Thách Đã Bắt Đầu</p>
+                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1" style="font-size: 0.75rem;">Số Thử Thách Đã Bắt Đầu</p>
                         <h3 class="text-3xl font-bold text-slate-900 mb-1">3,420</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +25.3%
-                        </p>
+                        
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-play"></i>
@@ -421,9 +391,7 @@
                     <div>
                         <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1" style="font-size: 0.75rem;">Thử Thách Hoàn Thành</p>
                         <h3 class="text-3xl font-bold text-slate-900 mb-1">2,890</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +28.7%
-                        </p>
+                        
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-trophy"></i>
@@ -442,22 +410,13 @@
         <!-- Main Analysis Charts -->
         <div class="grid grid-cols-1 gap-6 mt-6">
             
-            <!-- Chart: Operations Trend -->
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <div class="mb-4">
-                    <h3 class="text-lg font-bold text-slate-800">Xu Hướng Tương Tác & Thử Thách</h3>
-                    <p class="text-xs text-slate-500">Phân tích lượng tương tác NFC và hiệu suất giải đố hàng ngày.</p>
-                </div>
-                <div class="h-80 w-full">
-                    <canvas id="chart-operations-trends"></canvas>
-                </div>
-            </div>
+            
 
             <!-- Chart: Heatmap -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                 <div class="mb-4 flex justify-between items-end">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-800">Ma Trận Mật Độ Tương Tác (Thực Địa)</h3>
+                        <h3 class="text-lg font-bold text-slate-800">Mật Độ Tương Tác Theo Khung Giờ & Ngày</h3>
                         <p class="text-xs text-slate-500">Khung giờ và ngày cao điểm quét NFC (Đậm = Lưu lượng cao).</p>
                     </div>
                     <div class="text-xs font-medium text-slate-500 flex items-center gap-2">
@@ -482,7 +441,7 @@
             <!-- Chart: Top 5 Locations -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
                 <div class="mb-4">
-                    <h3 class="text-lg font-bold text-slate-800">Tỷ Trọng Quét Top 5 Trạm</h3>
+                    <h3 class="text-lg font-bold text-slate-800">Tỉ Lệ Tap Chip Top 5 Trạm</h3>
                     <p class="text-xs text-slate-500">Phân bổ lượt quét NFC theo địa điểm.</p>
                 </div>
                 <div class="relative flex-1 min-h-[250px] w-full flex items-center justify-center">
@@ -493,7 +452,7 @@
             <!-- Chart: Member vs Guest -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
                 <div class="mb-4">
-                    <h3 class="text-lg font-bold text-slate-800">Cơ Cấu: Thành Viên vs Khách</h3>
+                    <h3 class="text-lg font-bold text-slate-800">Tỷ Lệ Thành Viên vs Khách</h3>
                     <p class="text-xs text-slate-500">Tỷ lệ đăng nhập so với thiết bị ẩn danh.</p>
                 </div>
                 <div class="relative flex-1 min-h-[250px] w-full flex items-center justify-center">
@@ -504,8 +463,8 @@
             <!-- Chart: Quest Completion Rate (Gauge) -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
                 <div class="mb-4">
-                    <h3 class="text-lg font-bold text-slate-800">Tỷ Lệ Hoàn Thành Nhiệm Vụ</h3>
-                    <p class="text-xs text-slate-500">So sánh số lượng Quest bắt đầu và kết thúc.</p>
+                    <h3 class="text-lg font-bold text-slate-800">Tỉ Lệ Hoàn Thành Thử Thách</h3>
+                    <p class="text-xs text-slate-500">So sánh số lượng thử thách bắt đầu và kết thúc.</p>
                 </div>
                 <div class="relative flex-1 min-h-[200px] w-full flex items-center justify-center">
                     <canvas id="chart-completion-rate"></canvas>
@@ -524,7 +483,7 @@
             <!-- Chart: Solving Speed -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                 <div class="mb-4">
-                    <h3 class="text-lg font-bold text-slate-800">Tốc Độ Giải Đố Trung Bình Bằng Giây</h3>
+                    <h3 class="text-lg font-bold text-slate-800">Thời Gian Trung Bình Hoàn Thành Thử Thách Theo Trạm</h3>
                     <p class="text-xs text-slate-500">Thời gian từ lúc bắt đầu đến khi giải xong thử thách theo trạm.</p>
                 </div>
                 <div class="h-72 w-full">
@@ -535,8 +494,8 @@
             <!-- Chart: Returning Users -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                 <div class="mb-4">
-                    <h3 class="text-lg font-bold text-slate-800">Tần Suất Người Chơi Quay Lại</h3>
-                    <p class="text-xs text-slate-500">Phân bổ số ngày hoạt động (active days) của người dùng.</p>
+                    <h3 class="text-lg font-bold text-slate-800">Tần Suất Người Chơi Tap Chip</h3>
+                    <p class="text-xs text-slate-500">Phân bổ số người chơi tap tại 1 hoặc nhiều trạm.</p>
                 </div>
                 <div class="h-72 w-full">
                     <canvas id="chart-returning-users"></canvas>
@@ -675,12 +634,12 @@
                                 <td class="px-6 py-4 text-slate-600">Tỷ lệ phân bổ số lượt quét chip NFC trên 5 trạm thực địa hàng đầu (Độ phổ biến địa điểm).</td>
                             </tr>
                             <tr class="border-t border-slate-100 hover:bg-slate-50/50">
-                                <td class="px-6 py-4 font-medium text-slate-900">Cơ Cấu: Thành Viên vs Khách</td>
+                                <td class="px-6 py-4 font-medium text-slate-900">Tỷ Lệ Thành Viên vs Khách</td>
                                 <td class="px-6 py-4 text-slate-600"><span class="px-2 py-1 bg-slate-100 rounded text-xs font-semibold">GA4</span></td>
                                 <td class="px-6 py-4 text-slate-600">Tỷ lệ giữa thành viên đã đăng ký tài khoản (login) và thiết bị khách ẩn danh. Hiệu quả chuyển đổi.</td>
                             </tr>
                             <tr class="border-t border-slate-100 hover:bg-slate-50/50">
-                                <td class="px-6 py-4 font-medium text-slate-900">Tỷ Lệ Hoàn Thành Nhiệm Vụ</td>
+                                <td class="px-6 py-4 font-medium text-slate-900">Tỉ Lệ Hoàn Thành Thử Thách</td>
                                 <td class="px-6 py-4 text-slate-600"><span class="px-2 py-1 bg-slate-100 rounded text-xs font-semibold">GA4</span></td>
                                 <td class="px-6 py-4 text-slate-600">Tỷ lệ % nhiệm vụ đã bắt đầu được hoàn thành thành công (Độ khó & độ gắn kết).</td>
                             </tr>
@@ -690,7 +649,7 @@
                                 <td class="px-6 py-4 text-slate-600">Thời gian trung bình (giây) để hoàn thành câu đố thử thách tại mỗi địa điểm cụ thể.</td>
                             </tr>
                             <tr class="border-t border-slate-100 hover:bg-slate-50/50">
-                                <td class="px-6 py-4 font-medium text-slate-900">Tần Suất Người Chơi Quay Lại</td>
+                                <td class="px-6 py-4 font-medium text-slate-900">Tần Suất Người Chơi Tap Chip</td>
                                 <td class="px-6 py-4 text-slate-600"><span class="px-2 py-1 bg-slate-100 rounded text-xs font-semibold">GA4</span></td>
                                 <td class="px-6 py-4 text-slate-600">Tần suất phân bổ số ngày người dùng quay lại tương tác (Lòng trung thành của người chơi).</td>
                             </tr>
@@ -750,9 +709,7 @@
                     <div>
                         <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Số Người Dùng Bắt Đầu Thử Thách</p>
                         <h3 class="text-3xl font-bold text-slate-900 mb-1">1,842</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +12.0%
-                        </p>
+                        
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-users-viewfinder"></i>
@@ -770,9 +727,7 @@
                     <div>
                         <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Số Người Dùng Hoàn Thành Thử Thách</p>
                         <h3 class="text-3xl font-bold text-slate-900 mb-1">1,510</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +8.4%
-                        </p>
+                        
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-user-check"></i>
@@ -788,8 +743,8 @@
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
             <div class="mb-4 flex flex-col md:flex-row justify-between md:items-start gap-4">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-800">Lượt Tap Chip & Đăng Nhập Theo Trạm</h3>
-                    <p class="text-xs text-slate-500">Phân bổ tổng số lần quét NFC và số lượt tài khoản ghi nhận tương tác.</p>
+                    <h3 class="text-lg font-bold text-slate-800">Lượt Tap Chip Theo Trạm</h3>
+                    <p class="text-xs text-slate-500">Phân bổ tổng số lần quét NFC tại từng trạm.</p>
                 </div>
                 
                 <!-- Sorting Dropdown -->
@@ -812,6 +767,31 @@
             </div>
         </div>
 
+        
+        <!-- NEW CHART: Login Rate -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
+            <div class="mb-4 flex flex-col md:flex-row justify-between md:items-start gap-4">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800">Tỉ Lệ Login Theo Từng Trạm</h3>
+                    <p class="text-xs text-slate-500">Tỉ lệ người dùng ghi nhận tương tác đăng nhập.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label for="sort-login-rate" class="text-sm font-medium text-slate-600 whitespace-nowrap">Sắp xếp theo:</label>
+                    <div class="relative">
+                        <select id="sort-login-rate" class="appearance-none bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-8 py-2 cursor-pointer outline-none transition-colors hover:border-slate-400">
+                            <option value="journey">Mạch hành trình (Mặc định)</option>
+                            <option value="desc">Giá trị (Từ cao đến thấp)</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h-80 w-full relative">
+                <canvas id="chart-login-rate"></canvas>
+            </div>
+        </div>
         <!-- Chart 1: Challenge Volumes by Location -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
             <div class="mb-4 flex flex-col md:flex-row justify-between md:items-end">
@@ -846,9 +826,22 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <!-- Chart 2: Success Rate -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
-                <div class="mb-4">
-                    <h3 class="text-lg font-bold text-slate-800">Tỷ Lệ Giải Đố Thành Công Theo Trạm</h3>
-                    <p class="text-xs text-slate-500">Tỷ lệ % các thử thách bắt đầu được hoàn thành thành công (Độ khó câu đố).</p>
+                <div class="mb-4 flex flex-col xl:flex-row justify-between xl:items-start gap-2">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Tỷ Lệ Hoàn Thành Thử Thách Theo Trạm</h3>
+                        <p class="text-xs text-slate-500">Tỷ lệ % hoàn thành thành công.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="relative">
+                            <select id="sort-success-rate" class="appearance-none bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-8 py-1.5 cursor-pointer outline-none transition-colors hover:border-slate-400">
+                                <option value="journey">Hành trình</option>
+                                <option value="desc">Giá trị (Giảm dần)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="relative flex-1 min-h-[300px] w-full">
                     <canvas id="chart-success-rate"></canvas>
@@ -881,16 +874,7 @@
                 </div>
             </div>
 
-            <!-- Chart 5: Hourly Station Throughput Rate (Line) -->
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
-                <div class="mb-4">
-                    <h3 class="text-lg font-bold text-slate-800">Tốc Độ Thông Lượng Tải Trạm Hàng Giờ</h3>
-                    <p class="text-xs text-slate-500">Công suất xử lý quét tối đa hàng giờ mà trạm đã phục vụ (Điểm nghẽn hàng đợi).</p>
-                </div>
-                <div class="relative flex-1 min-h-[300px] w-full">
-                    <canvas id="chart-hourly-throughput"></canvas>
-                </div>
-            </div>
+            
         </div>
 
         <!-- Contextual Data Details -->
@@ -1014,34 +998,7 @@
             </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            
-            <!-- Chart 1: Challenge Volumes Members vs Guests -->
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
-                <div class="mb-4 flex flex-col md:flex-row justify-between md:items-start gap-4">
-                    <div>
-                        <h3 class="text-lg font-bold text-slate-800">Sản Lượng Thử Thách: Thành Viên vs Khách</h3>
-                        <p class="text-xs text-slate-500">So sánh số lượng thử thách hoàn thành giữa tài khoản đăng ký và khách vãng lai.</p>
-                    </div>
-                    <!-- Sorting Dropdown -->
-                    <div class="flex items-center gap-2">
-                        <label for="sort-member-guest" class="text-sm font-medium text-slate-600 whitespace-nowrap">Sắp xếp theo:</label>
-                        <div class="relative">
-                            <select id="sort-member-guest" class="appearance-none bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-8 py-2 cursor-pointer outline-none transition-colors hover:border-slate-400">
-                                <option value="journey">Mạch hành trình</option>
-                                <option value="desc">Tổng giá trị (Cao đến thấp)</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="relative flex-1 min-h-[350px] w-full">
-                    <canvas id="chart-member-guest-volume"></canvas>
-                </div>
-            </div>
-
+        <div class="grid grid-cols-1 gap-6 mb-8">
             <!-- Chart 2: Week 1 User Retention Matrix -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col overflow-hidden">
                 <div class="mb-4">
@@ -1223,20 +1180,7 @@
             </div>
         </header>
 
-        <!-- Admin Quest Filters (Mock UI) -->
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-3 w-full sm:w-auto">
-                <span class="text-sm font-semibold text-slate-700">Chọn Nhiệm Vụ (Quest):</span>
-                <select class="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2">
-                    <option>Hành Trình Khám Phá Di Sản (ID: Q_001)</option>
-                    <option>Truy Tìm Cổ Vật (ID: Q_002)</option>
-                    <option>Thử Thách Mùa Hè (ID: Q_003)</option>
-                </select>
-            </div>
-            <div class="text-sm text-slate-500">
-                <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Đang hoạt động
-            </div>
-        </div>
+        
 
         <!-- KPI Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -1247,9 +1191,7 @@
                     <div>
                         <p class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Lượt Bắt Đầu Nhiệm Vụ</p>
                         <h3 class="text-3xl font-bold text-slate-900 mb-1">3,850</h3>
-                        <p class="text-xs text-emerald-600 font-medium flex items-center">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> Tỷ lệ tham gia cao
-                        </p>
+                        
                     </div>
                     <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-flag-checkered"></i>
@@ -1287,7 +1229,7 @@
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
             <div class="mb-6 flex flex-col md:flex-row justify-between md:items-end gap-2">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-800">Phễu Chuyển Đổi O2O Toàn Vẹn 7 Bước</h3>
+                    <h3 class="text-lg font-bold text-slate-800">Phễu Chuyển Đổi O2O Toàn Vẹn</h3>
                     <p class="text-xs text-slate-500">Hành trình chuyển đổi từ xem quảng cáo số trực tuyến đến khi nhận huy hiệu thực tế.</p>
                 </div>
                 <div class="bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded text-xs font-medium border border-indigo-100 inline-flex items-center">
@@ -1295,84 +1237,49 @@
                 </div>
             </div>
             
-            <!-- Custom HTML Funnel Chart -->
+                        <!-- Custom HTML Funnel Chart -->
             <div class="w-full flex flex-col gap-3 font-sans">
-                
                 <!-- Step 1 -->
                 <div class="relative w-full h-10 bg-slate-100 rounded-md overflow-hidden flex items-center group">
-                    <div class="absolute top-0 left-0 h-full bg-slate-300 w-[100%] transition-all duration-500"></div>
+                    <div class="absolute top-0 left-0 h-full bg-cyan-400 w-[100%] transition-all duration-500"></div>
                     <div class="relative z-10 w-full px-4 flex justify-between items-center text-sm">
-                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-globe text-slate-500"></i></div> 1. Web View (Xem Landing Page)</span>
-                        <span class="font-bold text-slate-800">8,920 <span class="text-xs font-normal text-slate-500 ml-1">(100%)</span></span>
+                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-brands fa-nfc-symbol text-slate-500"></i></div> 1. Tap Chip (Lượt quét NFC)</span>
+                        <span class="font-bold text-slate-800">45,620 <span class="text-xs font-normal text-slate-600 ml-1">(100%)</span></span>
                     </div>
                 </div>
                 
-                <div class="flex justify-end pr-4 -my-1.5"><span class="text-xs font-medium text-rose-500 bg-white px-2 py-0.5 rounded border border-rose-100 shadow-sm z-20"><i class="fa-solid fa-arrow-down mr-1"></i> Rớt -33.8%</span></div>
+                <div class="flex justify-end pr-4 -my-1.5"><span class="text-xs font-medium text-rose-500 bg-white px-2 py-0.5 rounded border border-rose-100 shadow-sm z-20"><i class="fa-solid fa-arrow-down mr-1"></i> Chuyển đổi 19.5%</span></div>
 
                 <!-- Step 2 -->
                 <div class="relative w-full h-10 bg-slate-100 rounded-md overflow-hidden flex items-center group">
-                    <div class="absolute top-0 left-0 h-full bg-indigo-300 w-[66.2%] transition-all duration-500"></div>
+                    <div class="absolute top-0 left-0 h-full bg-indigo-400 w-[19.5%] min-w-[15%] transition-all duration-500"></div>
                     <div class="relative z-10 w-full px-4 flex justify-between items-center text-sm">
-                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-mobile-screen-button text-indigo-600"></i></div> 2. Scan Chip (Chạm NFC)</span>
-                        <span class="font-bold text-slate-800">5,905 <span class="text-xs font-normal text-slate-500 ml-1">(66.2%)</span></span>
+                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-play text-slate-500"></i></div> 2. Bắt đầu thử thách</span>
+                        <span class="font-bold text-slate-800">8,920 <span class="text-xs font-normal text-slate-600 ml-1">(19.5%)</span></span>
                     </div>
                 </div>
-
-                <div class="flex justify-end pr-4 -my-1.5"><span class="text-xs font-medium text-rose-500 bg-white px-2 py-0.5 rounded border border-rose-100 shadow-sm z-20"><i class="fa-solid fa-arrow-down mr-1"></i> Rớt -34.1%</span></div>
+                
+                <div class="flex justify-end pr-4 -my-1.5"><span class="text-xs font-medium text-rose-500 bg-white px-2 py-0.5 rounded border border-rose-100 shadow-sm z-20"><i class="fa-solid fa-arrow-down mr-1"></i> Chuyển đổi 43.6%</span></div>
 
                 <!-- Step 3 -->
                 <div class="relative w-full h-10 bg-slate-100 rounded-md overflow-hidden flex items-center group">
-                    <div class="absolute top-0 left-0 h-full bg-indigo-400 w-[43.6%] transition-all duration-500"></div>
+                    <div class="absolute top-0 left-0 h-full bg-blue-400 w-[8.5%] min-w-[10%] transition-all duration-500"></div>
                     <div class="relative z-10 w-full px-4 flex justify-between items-center text-sm">
-                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-user-check text-indigo-700"></i></div> 3. Login (Đăng nhập)</span>
-                        <span class="font-bold text-slate-800">3,890 <span class="text-xs font-normal text-slate-500 ml-1">(43.6%)</span></span>
+                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-right-to-bracket text-slate-500"></i></div> 3. Login (Đăng nhập)</span>
+                        <span class="font-bold text-slate-800">3,890 <span class="text-xs font-normal text-slate-600 ml-1">(8.5%)</span></span>
                     </div>
                 </div>
-
-                <div class="flex justify-end pr-4 -my-1.5"><span class="text-xs font-medium text-amber-500 bg-white px-2 py-0.5 rounded border border-amber-100 shadow-sm z-20"><i class="fa-solid fa-arrow-down mr-1"></i> Rớt -1.0%</span></div>
+                
+                <div class="flex justify-end pr-4 -my-1.5"><span class="text-xs font-medium text-rose-500 bg-white px-2 py-0.5 rounded border border-rose-100 shadow-sm z-20"><i class="fa-solid fa-arrow-down mr-1"></i> Chuyển đổi 21.8%</span></div>
 
                 <!-- Step 4 -->
                 <div class="relative w-full h-10 bg-slate-100 rounded-md overflow-hidden flex items-center group">
-                    <div class="absolute top-0 left-0 h-full bg-indigo-500 w-[43.1%] transition-all duration-500"></div>
+                    <div class="absolute top-0 left-0 h-full bg-emerald-400 w-[1.9%] min-w-[5%] transition-all duration-500"></div>
                     <div class="relative z-10 w-full px-4 flex justify-between items-center text-sm">
-                        <span class="font-semibold text-white flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-map-location-dot text-indigo-100"></i></div> 4. Quest Start (Bắt đầu Hành trình)</span>
-                        <span class="font-bold text-indigo-900">3,850 <span class="text-xs font-normal text-indigo-800 ml-1">(43.1%)</span></span>
+                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-flag-checkered text-slate-500"></i></div> 4. Hoàn thành thử thách</span>
+                        <span class="font-bold text-slate-800">850 <span class="text-xs font-normal text-slate-600 ml-1">(1.9%)</span></span>
                     </div>
                 </div>
-
-                <div class="flex justify-end pr-4 -my-1.5"><span class="text-xs font-medium text-rose-500 bg-white px-2 py-0.5 rounded border border-rose-100 shadow-sm z-20"><i class="fa-solid fa-arrow-down mr-1"></i> Rớt -52.1%</span></div>
-
-                <!-- Step 5 -->
-                <div class="relative w-full h-10 bg-slate-100 rounded-md overflow-hidden flex items-center group">
-                    <div class="absolute top-0 left-0 h-full bg-blue-500 w-[20.6%] transition-all duration-500"></div>
-                    <div class="relative z-10 w-full px-4 flex justify-between items-center text-sm">
-                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-puzzle-piece text-blue-600"></i></div> 5. Challenge Start (Chơi Trạm)</span>
-                        <span class="font-bold text-slate-800">1,842 <span class="text-xs font-normal text-slate-500 ml-1">(20.6%)</span></span>
-                    </div>
-                </div>
-
-                <div class="flex justify-end pr-4 -my-1.5"><span class="text-xs font-medium text-amber-500 bg-white px-2 py-0.5 rounded border border-amber-100 shadow-sm z-20"><i class="fa-solid fa-arrow-down mr-1"></i> Rớt -18.0%</span></div>
-
-                <!-- Step 6 -->
-                <div class="relative w-full h-10 bg-slate-100 rounded-md overflow-hidden flex items-center group">
-                    <div class="absolute top-0 left-0 h-full bg-emerald-400 w-[16.9%] transition-all duration-500"></div>
-                    <div class="relative z-10 w-full px-4 flex justify-between items-center text-sm">
-                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-check-double text-emerald-700"></i></div> 6. Challenge Complete (Giải xong)</span>
-                        <span class="font-bold text-slate-800">1,510 <span class="text-xs font-normal text-slate-500 ml-1">(16.9%)</span></span>
-                    </div>
-                </div>
-
-                <div class="flex justify-end pr-4 -my-1.5"><span class="text-xs font-medium text-amber-500 bg-white px-2 py-0.5 rounded border border-amber-100 shadow-sm z-20"><i class="fa-solid fa-arrow-down mr-1"></i> Rớt -6.1%</span></div>
-
-                <!-- Step 7 -->
-                <div class="relative w-full h-10 bg-slate-100 rounded-md overflow-hidden flex items-center group">
-                    <div class="absolute top-0 left-0 h-full bg-emerald-500 w-[15.8%] shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-500"></div>
-                    <div class="relative z-10 w-full px-4 flex justify-between items-center text-sm">
-                        <span class="font-semibold text-slate-800 flex items-center gap-2"><div class="w-5 text-center"><i class="fa-solid fa-medal text-amber-300 drop-shadow"></i></div> 7. Get Badge (Nhận Huy Hiệu)</span>
-                        <span class="font-bold text-slate-800">1,415 <span class="text-xs font-normal text-slate-500 ml-1">(15.8%)</span></span>
-                    </div>
-                </div>
-
             </div>
         </div>
 
@@ -1731,12 +1638,10 @@
 
             // 6. Quests Started
             const questsStartedTrend = [75, 80, 95, 85, 110, 125, 115, 90, 105, 130, 145, 155, 140, 160, 175];
-            createSparkline('sparkline-quests-started', questsStartedTrend, '#10b981'); // Emerald
-
+            
             // 7. Quests Completed
             const questsCompletedTrend = [45, 55, 60, 50, 75, 90, 80, 65, 70, 95, 105, 115, 95, 110, 130];
-            createSparkline('sparkline-quests-completed', questsCompletedTrend, '#14b8a6'); // Teal
-
+            
             // 8. Challenges Started
             const challengesStartedTrend = [200, 220, 250, 230, 280, 310, 290, 240, 270, 330, 360, 380, 340, 390, 420];
             createSparkline('sparkline-challenges-started', challengesStartedTrend, '#06b6d4'); // Cyan
@@ -1747,48 +1652,7 @@
 
             // --- MAIN CHARTS --- //
 
-            // Chart: Operations Trend (5 Lines)
-            const ctxOperations = document.getElementById('chart-operations-trends').getContext('2d');
-            new Chart(ctxOperations, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        { label: 'Số Lượt Tap Chip', data: totalTapsTrend, borderColor: '#e11d48', backgroundColor: 'rgba(225, 29, 72, 0.1)', tension: 0.4, borderWidth: 2, yAxisID: 'y' },
-                        { label: 'Số Người Tap Chip', data: gameUsersData, borderColor: '#a855f7', tension: 0.4, borderWidth: 2, borderDash: [5, 5], yAxisID: 'y1' },
-                        { label: 'Thử Thách Bắt Đầu', data: challengesStartedTrend, borderColor: '#06b6d4', tension: 0.4, borderWidth: 2, yAxisID: 'y1' },
-                        { label: 'Thử Thách Hoàn Thành', data: challengesCompletedTrend, borderColor: '#0ea5e9', tension: 0.4, borderWidth: 2, yAxisID: 'y1' }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 6 } },
-                        datalabels: { 
-                            display: false // Tắt label cho biểu đồ theo ngày
-                        }
-                    },
-                    scales: {
-                        y: { 
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            title: { display: true, text: 'Lượt Tap' },
-                            grid: { borderDash: [4, 4] } 
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            title: { display: true, text: 'Người dùng / Thử thách' },
-                            grid: { drawOnChartArea: false } // Prevent grid line overlap
-                        },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
+            
 
             // Chart 3: Heatmap (Rendered natively via DOM elements for a clean look)
             const heatmapContainer = document.getElementById('heatmap-container');
@@ -1989,7 +1853,7 @@
             new Chart(ctxReturningUsers, {
                 type: 'bar',
                 data: {
-                    labels: ['1 Ngày', '2 Ngày', '3 Ngày', '4 Ngày', '5+ Ngày'],
+                    labels: ['1 Trạm', '2 Trạm', '3 Trạm', '4 Trạm', '5 Trạm'],
                     datasets: [{
                         label: 'Số lượng người chơi',
                         data: [4200, 1850, 920, 410, 150],
@@ -2178,20 +2042,18 @@
 
             // --- NEW CHART: Tap & Login Volumes ---
             const ctxTapLogin = document.getElementById('chart-tap-login').getContext('2d');
-            const tapLoginChart = new Chart(ctxTapLogin, {
+            const tapLoginChart = new Chart(ctxTapLogin, { /* FIXED_TAP */
                 type: 'bar',
                 data: {
                     labels: currentLocations,
                     datasets: [
-                        { label: 'Lượt Tap Chip', data: currentTapData, backgroundColor: '#f43f5e', borderRadius: 4, barPercentage: 0.7, categoryPercentage: 0.8 },
-                        { label: 'Lượt Đăng Nhập (Login)', data: currentLoginData, backgroundColor: '#8b5cf6', borderRadius: 4, barPercentage: 0.7, categoryPercentage: 0.8 }
-                    ]
+                        { label: 'Lượt Tap Chip', data: currentTapData, backgroundColor: '#f43f5e', borderRadius: 4, barPercentage: 0.7, categoryPercentage: 0.8 } ]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, padding: 20 } },
-                        datalabels: { display: true, anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' } }
+                        datalabels: { display: true, anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' }, formatter: (value) => value + '%' }
                     },
                     scales: {
                         y: { beginAtZero: true, grid: { borderDash: [4, 4] }, grace: '15%' },
@@ -2219,6 +2081,30 @@
                 tapLoginChart.update();
             });
 
+            
+            // --- NEW CHART: Login Rate ---
+            const ctxLogin = document.getElementById('chart-login-rate').getContext('2d');
+            const loginChart = new Chart(ctxLogin, {
+                type: 'bar',
+                data: {
+                    labels: currentLocations,
+                    datasets: [
+                        { label: 'Lượt Đăng Nhập (Login)', data: [82.4, 65.3, 54.1, 71.2, 38.5], backgroundColor: '#8b5cf6', borderRadius: 4, barPercentage: 0.7, categoryPercentage: 0.8 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, padding: 20 } },
+                        datalabels: { display: true, anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' }, formatter: (value) => value + '%' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { borderDash: [4, 4] }, grace: '15%' },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
             // --- CHART 1: Challenge Volumes ---
             const ctxVolumes = document.getElementById('chart-volumes').getContext('2d');
             const volumesChart = new Chart(ctxVolumes, {
@@ -2234,7 +2120,7 @@
                     responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, padding: 20 } },
-                        datalabels: { display: true, anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' } },
+                        datalabels: { display: true, anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' }, formatter: (value) => value + '%' },
                         tooltip: {
                             callbacks: {
                                 footer: (tooltipItems) => {
@@ -2279,7 +2165,7 @@
 
             // --- CHART 2: Success Rate ---
             const ctxSuccess = document.getElementById('chart-success-rate').getContext('2d');
-            new Chart(ctxSuccess, {
+            const successChart = new Chart(ctxSuccess, {
                 type: 'bar',
                 data: {
                     labels: originalLocations,
@@ -2340,30 +2226,7 @@
                 }
             });
 
-            // --- CHART 5: Hourly Station Throughput Rate (Line) ---
-            const ctxThroughput = document.getElementById('chart-hourly-throughput').getContext('2d');
-            new Chart(ctxThroughput, {
-                type: 'line',
-                data: {
-                    labels: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'],
-                    datasets: [
-                        { label: 'Quảng trường', data: [45, 120, 180, 150, 220, 310, 250], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', borderWidth: 2, tension: 0.4 },
-                        { label: 'Tháp Đồng Hồ', data: [20, 85, 140, 110, 175, 245, 210], borderColor: '#8b5cf6', backgroundColor: 'rgba(139, 92, 246, 0.1)', borderWidth: 2, tension: 0.4 }
-                    ]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 6 } },
-                        datalabels: { display: false },
-                        tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': ' + context.parsed.y + ' scans'; } } }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { borderDash: [4, 4] }, title: { display: true, text: 'Số lượng Scan' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
+            
         });
     
 
@@ -2377,88 +2240,6 @@
         
         
         document.addEventListener('DOMContentLoaded', function() {
-            
-            // --- Chart 1: Challenge Volumes (Members vs Guests) - Stacked Bar ---
-            const originalLocationsMG = ['Quảng trường', 'Nhà Hát', 'Khu Khảo Cổ', 'Vườn Bí Mật', 'Tháp Đồng Hồ'];
-            const originalMemberData = [850, 420, 680, 590, 240];
-            const originalGuestData = [330, 60, 130, 130, 70];
-
-            const ctxMemberGuest = document.getElementById('chart-member-guest-volume').getContext('2d');
-            const memberGuestChart = new Chart(ctxMemberGuest, {
-                type: 'bar',
-                data: {
-                    labels: [...originalLocationsMG],
-                    datasets: [
-                        {
-                            label: 'Thành viên (Members)',
-                            data: [...originalMemberData], // Mock member completes
-                            backgroundColor: '#6366f1', // Indigo-500
-                            borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 4, bottomRight: 4 },
-                            barPercentage: 0.6,
-                        },
-                        {
-                            label: 'Khách vãng lai (Guests)',
-                            data: [...originalGuestData], // Mock guest completes
-                            backgroundColor: '#cbd5e1', // Slate-300
-                            borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0 },
-                            barPercentage: 0.6,
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, padding: 20 } },
-                        datalabels: {
-                            display: true,
-                            color: '#fff',
-                            font: {size: 11},
-                            formatter: (value) => value > 100 ? value : '' // Chỉ hiện số lớn để không bị chật
-                        },
-                        tooltip: {
-                            callbacks: {
-                                footer: (tooltipItems) => {
-                                    let total = 0;
-                                    tooltipItems.forEach(item => total += item.raw);
-                                    return `Tổng hoàn thành: ${total}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: { stacked: true, grid: { display: false } },
-                        y: { stacked: true, beginAtZero: true, grid: { borderDash: [4, 4] }, title: { display: true, text: 'Số thử thách hoàn thành' }, grace: '10%' }
-                    }
-                }
-            });
-
-            // Sorting logic for Member vs Guest chart
-            document.getElementById('sort-member-guest').addEventListener('change', function(e) {
-                const sortType = e.target.value;
-                if (sortType === 'journey') {
-                    memberGuestChart.data.labels = [...originalLocationsMG];
-                    memberGuestChart.data.datasets[0].data = [...originalMemberData];
-                    memberGuestChart.data.datasets[1].data = [...originalGuestData];
-                } else if (sortType === 'desc') {
-                    let combinedData = originalLocationsMG.map((loc, index) => {
-                        return {
-                            location: loc,
-                            member: originalMemberData[index],
-                            guest: originalGuestData[index],
-                            total: originalMemberData[index] + originalGuestData[index]
-                        };
-                    });
-                    // Sort descending by total volume
-                    combinedData.sort((a, b) => b.total - a.total);
-                    
-                    memberGuestChart.data.labels = combinedData.map(item => item.location);
-                    memberGuestChart.data.datasets[0].data = combinedData.map(item => item.member);
-                    memberGuestChart.data.datasets[1].data = combinedData.map(item => item.guest);
-                }
-                memberGuestChart.update();
-            });
 
             // --- Chart 2: Retention Matrix (HTML generation) ---
             const retentionData = [
@@ -2795,13 +2576,13 @@
 
             const option = {
                 tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-                legend: { data: ['Độ Trễ Trung Bình (s)'], bottom: 0 },
+                legend: { data: ['Độ trễ tải trang trung bình (s)'], bottom: 0 },
                 grid: { left: '3%', right: '4%', bottom: '15%', top: '5%', containLabel: true },
                 xAxis: { type: 'category', data: stations, axisLabel: { rotate: 20, fontSize: 11, color: '#475569', fontWeight: 500 } },
                 yAxis: { type: 'value', name: 'Giây (s)', nameTextStyle: { color: '#64748b' } },
                 series: [
                     {
-                        name: 'Độ Trễ Trung Bình (s)',
+                        name: 'Độ trễ tải trang trung bình (s)',
                         type: 'bar',
                         data: avgLatency,
                         barWidth: '45%',
