@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS & Network Infrastructure Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .chart-container {
+            width: 100%;
+            height: 350px;
+        }
+        /* Tùy chỉnh thanh cuộn (nếu cần) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="text-slate-800 p-4 md:p-8 min-h-screen">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-3 mb-1">
+                    <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">PAGE 5</span>
+                    <h1 class="text-3xl font-bold text-slate-900 tracking-tight">GPS & Network Infrastructure</h1>
+                </div>
+                <p class="text-slate-500 text-sm md:text-base mt-2">Báo cáo phân tích hiệu suất mạng và tác động đến trải nghiệm người dùng (Dữ liệu mẫu GA4)</p>
+            </div>
+            <div class="flex items-center space-x-2 bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm text-sm font-medium text-slate-600">
+                <i class="fa-regular fa-calendar text-indigo-500"></i>
+                <span>Tháng 7, 2026</span>
+                <i class="fa-solid fa-chevron-down text-xs ml-2 text-slate-400"></i>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+            <!-- Chart 1: Bar Chart -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-300 flex flex-col">
+                <div class="mb-4">
+                    <h2 class="text-lg font-bold text-slate-800">Page Load Latency Report by Station</h2>
+                    <h3 class="text-sm font-semibold text-slate-600">Báo Cáo Độ Trễ Tải Trang Tại Từng Trạm</h3>
+                    <p class="text-xs text-slate-500 mt-1">Phát hiện các khu vực có kết nối mạng 4G/Wifi yếu gây chậm trễ.</p>
+                </div>
+                <div id="chart1" class="chart-container flex-grow"></div>
+            </div>
+
+            <!-- Chart 2: Line Chart -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-300 flex flex-col">
+                <div class="mb-4">
+                    <h2 class="text-lg font-bold text-slate-800">Hourly Latency Fluctuations</h2>
+                    <h3 class="text-sm font-semibold text-slate-600">Biến Động Độ Trễ Tải Trang Theo Khung Giờ</h3>
+                    <p class="text-xs text-slate-500 mt-1">Nhận diện khung thời gian tắc nghẽn băng thông do mật độ du khách cao.</p>
+                </div>
+                <div id="chart2" class="chart-container flex-grow"></div>
+            </div>
+
+            <!-- Chart 3: Scatter Plot -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-300 flex flex-col xl:col-span-2">
+                <div class="mb-4">
+                    <h2 class="text-lg font-bold text-slate-800">Latency vs. Dwell Time Correlation</h2>
+                    <h3 class="text-sm font-semibold text-slate-600">Tương Quan Độ Trễ & Thời Gian Dừng Chân</h3>
+                    <p class="text-xs text-slate-500 mt-1">Đánh giá ảnh hưởng của chất lượng mạng kém đến thời lượng trải nghiệm.</p>
+                </div>
+                <div id="chart3" class="chart-container flex-grow"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const colors = {
+            primary: '#3b82f6', // Blue
+            secondary: '#10b981', // Emerald
+            warning: '#f59e0b', // Amber
+            danger: '#ef4444', // Red
+            purple: '#8b5cf6', // Purple
+            gray: '#cbd5e1'
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initChart1();
+            initChart2();
+            initChart3();
+        });
+
+        // Tự động resize biểu đồ khi thay đổi kích thước cửa sổ
+        window.addEventListener('resize', function() {
+            echarts.getInstanceByDom(document.getElementById('chart1'))?.resize();
+            echarts.getInstanceByDom(document.getElementById('chart2'))?.resize();
+            echarts.getInstanceByDom(document.getElementById('chart3'))?.resize();
+        });
+
+        function initChart1() {
+            const chart = echarts.init(document.getElementById('chart1'));
+            const stations = ['Cổng Chính', 'Nhà Hàng', 'Khu Vườn Cổ', 'Bãi Đỗ Xe', 'Đỉnh Đồi (Khuất)'];
+            const avgLatency = [1.2, 1.8, 4.5, 2.1, 9.5];
+
+            const option = {
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+                legend: { data: ['Độ Trễ Trung Bình (s)'], bottom: 0 },
+                grid: { left: '3%', right: '4%', bottom: '15%', top: '5%', containLabel: true },
+                xAxis: { type: 'category', data: stations, axisLabel: { rotate: 20, fontSize: 11, color: '#475569', fontWeight: 500 } },
+                yAxis: { type: 'value', name: 'Giây (s)', nameTextStyle: { color: '#64748b' } },
+                series: [
+                    {
+                        name: 'Độ Trễ Trung Bình (s)',
+                        type: 'bar',
+                        data: avgLatency,
+                        barWidth: '45%',
+                        label: { 
+                            show: true, 
+                            position: 'top',
+                            formatter: '{c}s',
+                            color: '#475569',
+                            fontWeight: 'bold'
+                        },
+                        itemStyle: { 
+                            color: function(params) {
+                                return params.value > 5 ? colors.danger : (params.value > 3 ? colors.warning : colors.primary);
+                            },
+                            borderRadius: [4, 4, 0, 0] 
+                        }
+                    }
+                ]
+            };
+            chart.setOption(option);
+        }
+
+        function initChart2() {
+            const chart = echarts.init(document.getElementById('chart2'));
+            const hours = Array.from({length: 24}, (_, i) => `${i}:00`);
+            const avgLatency = [1.0, 0.9, 0.8, 0.8, 0.9, 1.1, 1.5, 2.5, 3.2, 4.8, 5.5, 6.2, 5.8, 4.5, 3.5, 3.0, 4.2, 6.8, 7.5, 6.0, 4.0, 2.5, 1.5, 1.1];
+            
+            const option = {
+                tooltip: { trigger: 'axis', formatter: '{b}<br/>{a}: {c}s' },
+                grid: { left: '3%', right: '4%', bottom: '10%', top: '10%', containLabel: true },
+                xAxis: { 
+                    type: 'category', 
+                    boundaryGap: false, 
+                    data: hours,
+                    axisLabel: { interval: 2, fontSize: 11, color: '#475569' }
+                },
+                yAxis: { type: 'value', name: 'Giây (s)', nameTextStyle: { color: '#64748b' } },
+                visualMap: {
+                    show: false,
+                    pieces: [
+                        { gt: 0, lte: 3, color: colors.secondary },
+                        { gt: 3, lte: 5, color: colors.warning },
+                        { gt: 5, color: colors.danger }
+                    ]
+                },
+                series: [{
+                    name: 'Độ Trễ Tải Trang',
+                    type: 'line',
+                    smooth: true,
+                    data: avgLatency,
+                    symbol: 'circle',
+                    symbolSize: 6,
+                    lineStyle: { width: 3 }
+                }]
+            };
+            chart.setOption(option);
+        }
+
+        function initChart3() {
+            const chart = echarts.init(document.getElementById('chart3'));
+            // [Latency (X), Dwell Time (Y), Station Name, Sample Size]
+            const scatterData = [
+                [1.2, 180, 'Cổng Chính', 500],
+                [1.5, 210, 'Nhà Hàng', 450],
+                [2.1, 150, 'Bãi Đỗ Xe', 300],
+                [3.5, 110, 'Khu Vui Chơi', 400],
+                [4.5, 80, 'Khu Vườn Cổ', 250],
+                [6.5, 45, 'Hang Động', 150],
+                [8.2, 30, 'Đường Mòn', 100],
+                [9.5, 15, 'Đỉnh Đồi (Khuất sóng)', 80]
+            ];
+
+            const option = {
+                tooltip: {
+                    trigger: 'item',
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    borderColor: '#cbd5e1',
+                    textStyle: { color: '#334155' },
+                    formatter: function (params) {
+                        return `<div class="font-bold border-b border-slate-200 pb-1 mb-1">${params.data[2]}</div>
+                                Độ Trễ (Ping): <span class="font-semibold text-rose-500">${params.data[0]}s</span><br/>
+                                Dừng Chân: <span class="font-semibold text-blue-500">${params.data[1]}s</span><br/>
+                                Số Lượng Mẫu: <span class="font-semibold">${params.data[3]}</span>`;
+                    }
+                },
+                grid: { left: '3%', right: '7%', bottom: '10%', top: '10%', containLabel: true },
+                xAxis: { 
+                    type: 'value', 
+                    name: 'Độ Trễ Tải Trang (Giây)', 
+                    nameLocation: 'middle', 
+                    nameGap: 25,
+                    nameTextStyle: { color: '#475569', fontWeight: 500 },
+                    splitLine: { lineStyle: { type: 'dashed', color: '#e2e8f0' } }
+                },
+                yAxis: { 
+                    type: 'value', 
+                    name: 'Thời Gian Dừng (Giây)',
+                    nameTextStyle: { color: '#475569', fontWeight: 500 },
+                    splitLine: { lineStyle: { type: 'dashed', color: '#e2e8f0' } }
+                },
+                series: [{
+                    type: 'scatter',
+                    symbolSize: function (data) { return Math.sqrt(data[3]) * 1.8; },
+                    data: scatterData,
+                    label: {
+                        show: true,
+                        formatter: function(param) { return param.data[2]; },
+                        position: 'top',
+                        color: '#475569',
+                        fontSize: 10
+                    },
+                    itemStyle: {
+                        color: function(params) {
+                            return params.value[0] > 5 ? 'rgba(239, 68, 68, 0.75)' : 'rgba(59, 130, 246, 0.75)';
+                        },
+                        borderColor: '#fff',
+                        borderWidth: 1.5,
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }]
+            };
+            chart.setOption(option);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Cohorts & Behaviors - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Custom styling for retention matrix table */
+        .retention-table th, .retention-table td {
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+        }
+        .retention-table th {
+            font-weight: 600;
+            color: #475569;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-10 min-h-screen text-slate-800">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-3 mb-1">
+                    <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">PAGE 3</span>
+                    <h1 class="text-3xl font-bold text-slate-900 tracking-tight">User Cohorts & Behaviors</h1>
+                </div>
+                <p class="text-slate-500 text-sm md:text-base">Phân tích hành vi theo nhóm khách hàng, mức độ giữ chân và động lực gắn kết sâu.</p>
+            </div>
+            <div class="flex items-center space-x-2 bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm text-sm font-medium text-slate-600">
+                <i class="fa-regular fa-calendar text-indigo-500"></i>
+                <span>Tháng 7, 2026</span>
+                <i class="fa-solid fa-chevron-down text-xs ml-2 text-slate-400"></i>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            
+            <!-- Chart 1: Challenge Volumes Members vs Guests -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <div class="mb-4 flex flex-col md:flex-row justify-between md:items-start gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Sản Lượng Thử Thách: Thành Viên vs Khách</h3>
+                        <p class="text-xs text-slate-500">So sánh số lượng thử thách hoàn thành giữa tài khoản đăng ký và khách vãng lai.</p>
+                    </div>
+                    <!-- Sorting Dropdown -->
+                    <div class="flex items-center gap-2">
+                        <label for="sort-member-guest" class="text-sm font-medium text-slate-600 whitespace-nowrap">Sắp xếp theo:</label>
+                        <div class="relative">
+                            <select id="sort-member-guest" class="appearance-none bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-8 py-2 cursor-pointer outline-none transition-colors hover:border-slate-400">
+                                <option value="journey">Mạch hành trình</option>
+                                <option value="desc">Tổng giá trị (Cao đến thấp)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative flex-1 min-h-[350px] w-full">
+                    <canvas id="chart-member-guest-volume"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: Week 1 User Retention Matrix -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col overflow-hidden">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-slate-800">Ma Trận Giữ Chân Tuần Đầu (D0 - D7)</h3>
+                    <p class="text-xs text-slate-500">Tỷ lệ % người chơi quay lại hệ thống sau ngày tiếp cận đầu tiên (Day 0).</p>
+                </div>
+                <div class="relative flex-1 w-full overflow-x-auto text-sm">
+                    <table class="retention-table w-full border-collapse bg-white">
+                        <thead class="bg-slate-50 text-xs uppercase">
+                            <tr>
+                                <th class="text-left bg-slate-100 min-w-[90px]">Ngày (Day 0)</th>
+                                <th class="bg-slate-100 min-w-[70px]">Người mới</th>
+                                <th>D1</th>
+                                <th>D2</th>
+                                <th>D3</th>
+                                <th>D4</th>
+                                <th>D5</th>
+                                <th>D6</th>
+                                <th>D7</th>
+                            </tr>
+                        </thead>
+                        <tbody id="retention-tbody">
+                            <!-- Matrix rows will be injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            
+            <!-- Chart 3: Challenges Attempted Per User -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-slate-800">Tần Suất Tham Gia Thử Thách Mỗi Người Dùng</h3>
+                    <p class="text-xs text-slate-500">Phân bổ số lượng trạm thử thách mà mỗi người chơi đã nỗ lực hoàn thành.</p>
+                </div>
+                <div class="relative flex-1 min-h-[300px] w-full">
+                    <canvas id="chart-challenges-per-user"></canvas>
+                </div>
+            </div>
+
+            <!-- NEW Chart: Challenges Completed Per User -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-slate-800">Tần Suất Hoàn Thành Thử Thách Mỗi Người Dùng</h3>
+                    <p class="text-xs text-slate-500">Phân bổ số lượng trạm thử thách mà mỗi người chơi đã giải quyết thành công.</p>
+                </div>
+                <div class="relative flex-1 min-h-[300px] w-full">
+                    <canvas id="chart-completed-per-user"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- REORGANIZED GRID ROW 3 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            
+            <!-- Chart 4: Consecutive Scan Intervals (Histogram) -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <div class="mb-4 flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Khoảng Thời Gian Giữa Các Lượt Chạm Chip</h3>
+                        <p class="text-xs text-slate-500">Đo tốc độ di chuyển vật lý bằng cách đo thời gian trôi qua giữa 2 lần quét trạm liên tiếp.</p>
+                    </div>
+                </div>
+                <div class="relative flex-1 min-h-[300px] w-full">
+                    <canvas id="chart-scan-intervals"></canvas>
+                </div>
+            </div>
+            
+            <!-- Chart 6: Post-Badge Engagement Rate -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-slate-800">Tỷ Lệ Tương Tác Hậu Huy Hiệu</h3>
+                    <p class="text-xs text-slate-500">Tỷ lệ người dùng tiếp tục phát sinh sự kiện quét/chơi sau khi đã đạt được huy hiệu cuối cùng.</p>
+                </div>
+                <div class="relative flex-1 min-h-[300px] w-full flex items-center justify-center">
+                    <canvas id="chart-post-badge"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- REORGANIZED GRID ROW 4 -->
+        <div class="grid grid-cols-1 gap-6 mb-8">
+            
+            <!-- Chart 7: Geographic Cohorts (Full width) -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-slate-800">Phân Tích Cohort Theo Địa Lý</h3>
+                    <p class="text-xs text-slate-500">Phân bổ người chơi dựa trên tỉnh thành xuất phát (để tối ưu quảng cáo du lịch).</p>
+                </div>
+                <div class="relative flex-1 min-h-[300px] w-full">
+                    <canvas id="chart-geo-cohorts"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="border-b border-slate-100 bg-slate-50 px-6 py-4">
+                <h2 class="text-lg font-semibold text-slate-800">Chi tiết thông tin chỉ số (Metric Definitions)</h2>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 font-medium w-1/4">Chỉ số (Metric)</th>
+                                <th scope="col" class="px-6 py-3 font-medium w-32">Nguồn (Source)</th>
+                                <th scope="col" class="px-6 py-3 font-medium">Mô tả (Description)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                                <td class="px-6 py-4 font-medium text-slate-900 flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-amber-500 mr-2"></div>
+                                    Phân Bổ Khoảng Thời Gian Chạm Chip
+                                </td>
+                                <td class="px-6 py-4 text-slate-600"><span class="px-2 py-1 bg-slate-100 rounded text-xs font-semibold">GA4</span></td>
+                                <td class="px-6 py-4 text-slate-600">
+                                    <span class="font-medium text-slate-800">Ý nghĩa:</span> Ước lượng tốc độ di chuyển vật lý của du khách giữa các trạm thực địa.<br>
+                                    <span class="font-medium text-slate-800 mt-1 inline-block">Cách tính:</span> Tính hiệu số thời gian (timestamp) giữa hai sự kiện <code class="text-xs bg-slate-100 px-1 py-0.5 rounded text-pink-600">scan_chip</code> liên tiếp. Dựng biểu đồ Histogram.
+                                </td>
+                            </tr>
+                            
+                            <!-- New Dictionary Rows -->
+                            <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                                <td class="px-6 py-4 font-medium text-slate-900 flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-cyan-500 mr-2"></div>
+                                    Tỷ Lệ Quay Lại Sau Huy Hiệu
+                                </td>
+                                <td class="px-6 py-4 text-slate-600"><span class="px-2 py-1 bg-slate-100 rounded text-xs font-semibold">GA4</span></td>
+                                <td class="px-6 py-4 text-slate-600">
+                                    <span class="font-medium text-slate-800">Ý nghĩa:</span> Khả năng chơi lại và mức độ gắn kết sau khi nhận phần thưởng chính.<br>
+                                    <span class="font-medium text-slate-800 mt-1 inline-block">Cách tính:</span> Tỷ lệ user có phát sinh sự kiện tương tác sau thời điểm timestamp của <code class="text-xs bg-slate-100 px-1 py-0.5 rounded text-pink-600">quest_complete</code>.
+                                </td>
+                            </tr>
+                            <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                                <td class="px-6 py-4 font-medium text-slate-900 flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-indigo-500 mr-2"></div>
+                                    Phân Tích Cohort Theo Địa Lý
+                                </td>
+                                <td class="px-6 py-4 text-slate-600"><span class="px-2 py-1 bg-slate-100 rounded text-xs font-semibold">GA4</span></td>
+                                <td class="px-6 py-4 text-slate-600">
+                                    <span class="font-medium text-slate-800">Ý nghĩa:</span> Phân bổ khách theo tỉnh thành nhằm định hướng các chiến dịch Marketing du lịch.<br>
+                                    <span class="font-medium text-slate-800 mt-1 inline-block">Cách tính:</span> Đếm số lượng user_id, gom nhóm theo meta <code class="text-xs bg-slate-100 px-1 py-0.5 rounded text-pink-600">geo_city</code> hoặc <code class="text-xs bg-slate-100 px-1 py-0.5 rounded text-pink-600">geo_region</code>.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Kích hoạt Datalabels mặc định
+        Chart.register(ChartDataLabels);
+        
+        // Cấu hình mặc định cho tất cả các biểu đồ để tránh lặp code
+        Chart.defaults.plugins.datalabels.color = '#475569';
+        Chart.defaults.plugins.datalabels.font.weight = 'bold';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Chart 1: Challenge Volumes (Members vs Guests) - Stacked Bar ---
+            const originalLocationsMG = ['Quảng trường', 'Nhà Hát', 'Khu Khảo Cổ', 'Vườn Bí Mật', 'Tháp Đồng Hồ'];
+            const originalMemberData = [850, 420, 680, 590, 240];
+            const originalGuestData = [330, 60, 130, 130, 70];
+
+            const ctxMemberGuest = document.getElementById('chart-member-guest-volume').getContext('2d');
+            const memberGuestChart = new Chart(ctxMemberGuest, {
+                type: 'bar',
+                data: {
+                    labels: [...originalLocationsMG],
+                    datasets: [
+                        {
+                            label: 'Thành viên (Members)',
+                            data: [...originalMemberData], // Mock member completes
+                            backgroundColor: '#6366f1', // Indigo-500
+                            borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 4, bottomRight: 4 },
+                            barPercentage: 0.6,
+                        },
+                        {
+                            label: 'Khách vãng lai (Guests)',
+                            data: [...originalGuestData], // Mock guest completes
+                            backgroundColor: '#cbd5e1', // Slate-300
+                            borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0 },
+                            barPercentage: 0.6,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, padding: 20 } },
+                        datalabels: {
+                            display: true,
+                            color: '#fff',
+                            font: {size: 11},
+                            formatter: (value) => value > 100 ? value : '' // Chỉ hiện số lớn để không bị chật
+                        },
+                        tooltip: {
+                            callbacks: {
+                                footer: (tooltipItems) => {
+                                    let total = 0;
+                                    tooltipItems.forEach(item => total += item.raw);
+                                    return `Tổng hoàn thành: ${total}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, beginAtZero: true, grid: { borderDash: [4, 4] }, title: { display: true, text: 'Số thử thách hoàn thành' }, grace: '10%' }
+                    }
+                }
+            });
+
+            // Sorting logic for Member vs Guest chart
+            document.getElementById('sort-member-guest').addEventListener('change', function(e) {
+                const sortType = e.target.value;
+                if (sortType === 'journey') {
+                    memberGuestChart.data.labels = [...originalLocationsMG];
+                    memberGuestChart.data.datasets[0].data = [...originalMemberData];
+                    memberGuestChart.data.datasets[1].data = [...originalGuestData];
+                } else if (sortType === 'desc') {
+                    let combinedData = originalLocationsMG.map((loc, index) => {
+                        return {
+                            location: loc,
+                            member: originalMemberData[index],
+                            guest: originalGuestData[index],
+                            total: originalMemberData[index] + originalGuestData[index]
+                        };
+                    });
+                    // Sort descending by total volume
+                    combinedData.sort((a, b) => b.total - a.total);
+                    
+                    memberGuestChart.data.labels = combinedData.map(item => item.location);
+                    memberGuestChart.data.datasets[0].data = combinedData.map(item => item.member);
+                    memberGuestChart.data.datasets[1].data = combinedData.map(item => item.guest);
+                }
+                memberGuestChart.update();
+            });
+
+            // --- Chart 2: Retention Matrix (HTML generation) ---
+            const retentionData = [
+                { date: '01/07', users: 1250, d1: 45.2, d2: 22.1, d3: 15.4, d4: 10.2, d5: 8.5, d6: 4.1, d7: 2.5 },
+                { date: '02/07', users: 1420, d1: 42.8, d2: 24.5, d3: 18.0, d4: 12.1, d5: 7.2, d6: 5.0, d7: null },
+                { date: '03/07', users: 980,  d1: 48.5, d2: 28.2, d3: 19.5, d4: 15.0, d5: 9.1, d6: null, d7: null },
+                { date: '04/07', users: 1105, d1: 39.1, d2: 20.4, d3: 14.2, d4: 9.5,  d5: null, d6: null, d7: null },
+                { date: '05/07', users: 1650, d1: 52.4, d2: 31.0, d3: 22.8, d4: null, d5: null, d6: null, d7: null },
+                { date: '06/07', users: 1540, d1: 47.0, d2: 25.5, d3: null, d4: null, d5: null, d6: null, d7: null },
+                { date: '07/07', users: 1320, d1: 41.5, d2: null, d3: null, d4: null, d5: null, d6: null, d7: null },
+            ];
+
+            function getColor(value) {
+                if (value === null) return 'background-color: #f8fafc; color: #cbd5e1;'; // Empty/Future
+                if (value >= 40) return 'background-color: #10b981; color: white;'; // High (Emerald)
+                if (value >= 25) return 'background-color: #34d399; color: white;'; 
+                if (value >= 15) return 'background-color: #6ee7b7; color: #0f172a;';
+                if (value >= 8)  return 'background-color: #a7f3d0; color: #0f172a;';
+                return 'background-color: #d1fae5; color: #0f172a;'; // Low
+            }
+
+            const tbody = document.getElementById('retention-tbody');
+            let html = '';
+            retentionData.forEach(row => {
+                html += `<tr class="hover:bg-slate-50">
+                    <td class="font-medium text-left bg-white">${row.date}</td>
+                    <td class="font-bold bg-white">${row.users.toLocaleString()}</td>
+                    <td style="${getColor(row.d1)}">${row.d1 ? row.d1 + '%' : '-'}</td>
+                    <td style="${getColor(row.d2)}">${row.d2 ? row.d2 + '%' : '-'}</td>
+                    <td style="${getColor(row.d3)}">${row.d3 ? row.d3 + '%' : '-'}</td>
+                    <td style="${getColor(row.d4)}">${row.d4 ? row.d4 + '%' : '-'}</td>
+                    <td style="${getColor(row.d5)}">${row.d5 ? row.d5 + '%' : '-'}</td>
+                    <td style="${getColor(row.d6)}">${row.d6 ? row.d6 + '%' : '-'}</td>
+                    <td style="${getColor(row.d7)}">${row.d7 ? row.d7 + '%' : '-'}</td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+
+
+            // --- Chart 3: Challenges Attempted Per User (Vertical Bar) ---
+            const ctxPerUser = document.getElementById('chart-challenges-per-user').getContext('2d');
+            new Chart(ctxPerUser, {
+                type: 'bar',
+                data: {
+                    labels: ['Đã chơi 1 trạm', 'Đã chơi 2 trạm', 'Đã chơi 3 trạm', 'Đã chơi 4 trạm', 'Đã chơi cả 5 trạm'],
+                    datasets: [{
+                        label: 'Số lượng người dùng',
+                        data: [4200, 2150, 1120, 540, 280], // Exponential decay model mockup
+                        backgroundColor: 'rgba(139, 92, 246, 0.8)', // Purple-500
+                        borderColor: '#8b5cf6',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: {
+                            display: true,
+                            anchor: 'end',
+                            align: 'top',
+                            color: '#8b5cf6',
+                            formatter: (value) => value.toLocaleString()
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { borderDash: [4, 4] }, title: { display: true, text: 'Lượng người chơi (Users)' }, grace: '15%' },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // --- NEW Chart: Challenges Completed Per User (Vertical Bar) ---
+            const ctxCompletedPerUser = document.getElementById('chart-completed-per-user').getContext('2d');
+            new Chart(ctxCompletedPerUser, {
+                type: 'bar',
+                data: {
+                    labels: ['Hoàn thành 1 trạm', 'Hoàn thành 2 trạm', 'Hoàn thành 3 trạm', 'Hoàn thành 4 trạm', 'Hoàn thành đủ 5 trạm'],
+                    datasets: [{
+                        label: 'Số lượng người dùng',
+                        data: [3800, 1850, 820, 310, 120], // Adjusted to be lower than attempted due to drop-off
+                        backgroundColor: 'rgba(16, 185, 129, 0.8)', // Emerald-500
+                        borderColor: '#10b981',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: {
+                            display: true,
+                            anchor: 'end',
+                            align: 'top',
+                            color: '#059669', // Darker emerald for text
+                            formatter: (value) => value.toLocaleString()
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { borderDash: [4, 4] }, title: { display: true, text: 'Lượng người chơi (Users)' }, grace: '15%' },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // --- Chart 4: Consecutive Scan Intervals (Histogram using Bar Chart) ---
+            const ctxIntervals = document.getElementById('chart-scan-intervals').getContext('2d');
+            new Chart(ctxIntervals, {
+                type: 'bar',
+                data: {
+                    labels: ['< 5 phút', '5 - 15 phút', '15 - 30 phút', '30 - 60 phút', '1 - 2 tiếng', '> 2 tiếng'],
+                    datasets: [{
+                        label: 'Tần suất (Số lượt di chuyển)',
+                        data: [450, 1850, 3200, 1500, 620, 180], // Bell curve mockup leaning right
+                        backgroundColor: 'rgba(245, 158, 11, 0.8)', // Amber-500
+                        borderColor: '#d97706',
+                        borderWidth: 1,
+                        borderRadius: 2,
+                        barPercentage: 1.0,      // Make bars touch each other for histogram look
+                        categoryPercentage: 1.0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: {
+                            display: true,
+                            anchor: 'end',
+                            align: 'top',
+                            color: '#d97706',
+                            font: {size: 10},
+                            formatter: (value) => value > 200 ? value : ''
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { borderDash: [4, 4] }, title: { display: true, text: 'Số lượng phiên (Lượt)' }, grace: '10%' },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { maxRotation: 45, minRotation: 0 }
+                        }
+                    }
+                }
+            });
+
+            // --- Chart 6: Post-Badge Engagement Rate (Pie/Donut Chart) ---
+            const ctxPostBadge = document.getElementById('chart-post-badge').getContext('2d');
+            new Chart(ctxPostBadge, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Tiếp tục tương tác', 'Không hoạt động (Rời đi)'],
+                    datasets: [{
+                        data: [28, 72],
+                        backgroundColor: ['#06b6d4', '#e2e8f0'], // Cyan-500 & Slate-200
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, boxWidth: 8 } },
+                        datalabels: {
+                            display: true,
+                            color: (context) => context.dataIndex === 0 ? '#fff' : '#64748b',
+                            font: {size: 14},
+                            formatter: (value) => value + '%'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return context.label + ': ' + context.parsed + '%'; }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- Chart 7: Player Geographic Cohorts (Horizontal Bar) ---
+            const ctxGeoCohorts = document.getElementById('chart-geo-cohorts').getContext('2d');
+            new Chart(ctxGeoCohorts, {
+                type: 'bar',
+                data: {
+                    labels: ['TP. Hồ Chí Minh', 'Hà Nội', 'Đà Nẵng', 'Hải Phòng', 'Cần Thơ', 'Khác'],
+                    datasets: [{
+                        label: 'Số lượng người dùng',
+                        data: [4250, 1820, 850, 420, 310, 1105],
+                        backgroundColor: 'rgba(99, 102, 241, 0.85)', // Indigo-500
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: {
+                            display: true,
+                            anchor: 'end',
+                            align: 'right',
+                            color: '#4f46e5',
+                            formatter: (value) => value.toLocaleString()
+                        }
+                    },
+                    scales: {
+                        x: { beginAtZero: true, grid: { borderDash: [4, 4] }, grace: '20%' },
+                        y: { grid: { display: false } }
+                    },
+                    layout: { padding: { right: 40 } }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
