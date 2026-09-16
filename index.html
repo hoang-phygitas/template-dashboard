@@ -819,8 +819,23 @@
                     <h3 class="text-lg font-bold text-slate-800">Sản Lượng Thử Thách Tại Từng Trạm Thực Địa</h3>
                     <p class="text-xs text-slate-500">Tổng số thử thách đã bắt đầu (Start) so với đã hoàn thành (Complete).</p>
                 </div>
-                <div class="mt-2 md:mt-0 bg-blue-50 text-blue-700 px-3 py-1.5 rounded text-xs font-medium border border-blue-100 inline-block">
-                    <i class="fa-solid fa-lightbulb mr-1"></i> Khoảng cách giữa 2 cột cho thấy tỷ lệ rớt phễu (Drop-off)
+                <div class="flex flex-col md:items-end gap-2">
+                    <div class="mt-2 md:mt-0 bg-blue-50 text-blue-700 px-3 py-1.5 rounded text-xs font-medium border border-blue-100 inline-block">
+                        <i class="fa-solid fa-lightbulb mr-1"></i> Khoảng cách giữa 2 cột cho thấy tỷ lệ rớt phễu (Drop-off)
+                    </div>
+                    <!-- Sorting Dropdown -->
+                    <div class="flex items-center gap-2 mt-1 md:mt-0">
+                        <label for="sort-volumes" class="text-sm font-medium text-slate-600 whitespace-nowrap">Sắp xếp theo:</label>
+                        <div class="relative">
+                            <select id="sort-volumes" class="appearance-none bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-8 py-2 cursor-pointer outline-none transition-colors hover:border-slate-400">
+                                <option value="journey">Mạch hành trình (Mặc định)</option>
+                                <option value="desc">Giá trị (Từ cao đến thấp)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="h-80 w-full relative">
@@ -2206,7 +2221,7 @@
 
             // --- CHART 1: Challenge Volumes ---
             const ctxVolumes = document.getElementById('chart-volumes').getContext('2d');
-            new Chart(ctxVolumes, {
+            const volumesChart = new Chart(ctxVolumes, {
                 type: 'bar',
                 data: {
                     labels: originalLocations,
@@ -2239,6 +2254,27 @@
                         x: { grid: { display: false } }
                     }
                 }
+            });
+
+            
+            // Sorting Logic for Challenge Volumes Chart
+            document.getElementById('sort-volumes').addEventListener('change', function(e) {
+                const sortType = e.target.value;
+                if (sortType === 'journey') {
+                    volumesChart.data.labels = [...originalLocations];
+                    volumesChart.data.datasets[0].data = [...startsData];
+                    volumesChart.data.datasets[1].data = [...completesData];
+                } else if (sortType === 'desc') {
+                    let combinedData = originalLocations.map((loc, index) => {
+                        return { location: loc, start: startsData[index], complete: completesData[index] };
+                    });
+                    // Sort by Starts descending
+                    combinedData.sort((a, b) => b.start - a.start);
+                    volumesChart.data.labels = combinedData.map(item => item.location);
+                    volumesChart.data.datasets[0].data = combinedData.map(item => item.start);
+                    volumesChart.data.datasets[1].data = combinedData.map(item => item.complete);
+                }
+                volumesChart.update();
             });
 
             // --- CHART 2: Success Rate ---
